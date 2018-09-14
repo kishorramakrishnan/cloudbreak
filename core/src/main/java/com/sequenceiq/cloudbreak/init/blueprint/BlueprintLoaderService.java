@@ -113,6 +113,8 @@ public class BlueprintLoaderService {
         blueprintFromDatabase.setHostGroupCount(newBlueprint.getHostGroupCount());
         blueprintFromDatabase.setInputParameters(newBlueprint.getInputParameters());
         blueprintFromDatabase.setAmbariName(newBlueprint.getAmbariName());
+        blueprintFromDatabase.setStackType(newBlueprint.getStackType());
+        blueprintFromDatabase.setStackVersion(newBlueprint.getStackVersion());
         return blueprintFromDatabase;
     }
 

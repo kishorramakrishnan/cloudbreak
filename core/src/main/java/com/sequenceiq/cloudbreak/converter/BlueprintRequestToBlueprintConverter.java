@@ -81,6 +81,8 @@ public class BlueprintRequestToBlueprintConverter extends AbstractConversionServ
             JsonNode root = JsonUtil.readTree(blueprint.getBlueprintText());
             blueprint.setAmbariName(blueprintUtils.getBlueprintName(root));
             blueprint.setHostGroupCount(blueprintUtils.countHostGroups(root));
+            blueprint.setStackType(blueprintUtils.getBlueprintStackName(root));
+            blueprint.setStackVersion(blueprintUtils.getBlueprintStackVersion(root));
         } catch (IOException e) {
             throw new BadRequestException(JSON_PARSE_EXCEPTION_MESSAGE, e);
         }
@@ -97,6 +99,8 @@ public class BlueprintRequestToBlueprintConverter extends AbstractConversionServ
             JsonNode root = JsonUtil.readTree(blueprint.getBlueprintText());
             blueprint.setAmbariName(blueprintUtils.getBlueprintName(root));
             blueprint.setHostGroupCount(blueprintUtils.countHostGroups(root));
+            blueprint.setStackType(blueprintUtils.getBlueprintStackName(root));
+            blueprint.setStackVersion(blueprintUtils.getBlueprintStackVersion(root));
         } catch (IOException e) {
             throw new BadRequestException(JSON_PARSE_EXCEPTION_MESSAGE, e);
         }
