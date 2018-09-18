@@ -4,12 +4,16 @@ package com.sequenceiq.it.cloudbreak.newway.v3;
 import static org.springframework.util.StringUtils.isEmpty;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.sequenceiq.cloudbreak.api.model.stack.StackResponse;
+import com.sequenceiq.cloudbreak.api.model.stack.StackViewResponse;
 import com.sequenceiq.cloudbreak.api.model.v2.NetworkV2Request;
 import com.sequenceiq.it.IntegrationTestContext;
 import com.sequenceiq.it.cloudbreak.newway.CloudbreakClient;
@@ -52,9 +56,14 @@ public class StackV3Action {
         Long workspaceId = integrationTestContext.getContextParam(CloudbreakTest.WORKSPACE_ID, Long.class);
         Log.log(" get all stack");
         stackEntity.setResponses(
+                toStackResponseSet(
                 client.getCloudbreakClient()
                         .stackV3Endpoint()
-                        .listByWorkspace(workspaceId));
+                        .listByWorkspace(workspaceId)));
+    }
+
+    private static Set<StackResponse> toStackResponseSet(Set<StackViewResponse> stackViewResponseSet){
+        return Collections.emptySet();
     }
 
     public static void delete(IntegrationTestContext integrationTestContext, Entity entity) {

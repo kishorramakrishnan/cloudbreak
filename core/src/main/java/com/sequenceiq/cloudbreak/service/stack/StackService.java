@@ -34,6 +34,7 @@ import com.sequenceiq.cloudbreak.api.model.DetailedStackStatus;
 import com.sequenceiq.cloudbreak.api.model.Status;
 import com.sequenceiq.cloudbreak.api.model.StatusRequest;
 import com.sequenceiq.cloudbreak.api.model.stack.StackResponse;
+import com.sequenceiq.cloudbreak.api.model.stack.StackViewResponse;
 import com.sequenceiq.cloudbreak.api.model.stack.instance.InstanceGroupAdjustmentJson;
 import com.sequenceiq.cloudbreak.api.model.stack.instance.InstanceStatus;
 import com.sequenceiq.cloudbreak.api.model.v2.StackV2Request;
@@ -211,6 +212,15 @@ public class StackService {
         try {
             return transactionService.required(() ->
                     convertStacks(stackRepository.findForWorkspaceIdWithLists(workspaceId)));
+        } catch (TransactionExecutionException e) {
+            throw new TransactionRuntimeExecutionException(e);
+        }
+    }
+
+    public Set<StackViewResponse> retrieveStackViewsByWorkspaceId(Long workspaceId) {
+        try {
+            return transactionService.required(() ->
+                    convertStackViews(stackViewRepository.findByWorkspaceId(workspaceId)));
         } catch (TransactionExecutionException e) {
             throw new TransactionRuntimeExecutionException(e);
         }
@@ -584,6 +594,11 @@ public class StackService {
     private Set<StackResponse> convertStacks(Set<Stack> stacks) {
         return (Set<StackResponse>) conversionService.convert(stacks, TypeDescriptor.forObject(stacks),
                 TypeDescriptor.collection(Set.class, TypeDescriptor.valueOf(StackResponse.class)));
+    }
+
+    private Set<StackViewResponse> convertStackViews(Set<StackView> stacks) {
+        return (Set<StackViewResponse>) conversionService.convert(stacks, TypeDescriptor.forObject(stacks),
+                TypeDescriptor.collection(Set.class, TypeDescriptor.valueOf(StackViewResponse.class)));
     }
 
     private Set<AutoscaleStackResponse> convertStacksForAutoscale(Set<Stack> stacks) {

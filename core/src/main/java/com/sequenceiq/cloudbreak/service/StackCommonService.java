@@ -29,6 +29,7 @@ import com.sequenceiq.cloudbreak.api.model.stack.StackRequest;
 import com.sequenceiq.cloudbreak.api.model.stack.StackResponse;
 import com.sequenceiq.cloudbreak.api.model.stack.StackScaleRequestV2;
 import com.sequenceiq.cloudbreak.api.model.stack.StackValidationRequest;
+import com.sequenceiq.cloudbreak.api.model.stack.StackViewResponse;
 import com.sequenceiq.cloudbreak.api.model.stack.cluster.ClusterRepairRequest;
 import com.sequenceiq.cloudbreak.api.model.v2.StackV2Request;
 import com.sequenceiq.cloudbreak.authorization.PermissionCheckingUtils;
@@ -176,7 +177,12 @@ public class StackCommonService implements StackEndpoint {
         stackService.delete(name, restRequestThreadLocalService.getRequestedWorkspaceId(), forced, deleteDependencies, user);
     }
 
-    public Set<StackResponse> retrieveStacksByWorkspaceId(Long workspaceId) {
+    public Set<StackViewResponse> retrieveStacksByWorkspaceId(Long workspaceId) {
+        return stackService.retrieveStackViewsByWorkspaceId(workspaceId);
+    }
+
+    // TODO: remove this method
+    public Set<StackResponse> retrieveStacksByWorkspaceIdOld(Long workspaceId) {
         return stackService.retrieveStacksByWorkspaceId(workspaceId);
     }
 

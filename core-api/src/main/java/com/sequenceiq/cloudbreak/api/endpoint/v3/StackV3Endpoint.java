@@ -22,6 +22,7 @@ import com.sequenceiq.cloudbreak.api.model.ReinstallRequestV2;
 import com.sequenceiq.cloudbreak.api.model.stack.StackImageChangeRequest;
 import com.sequenceiq.cloudbreak.api.model.stack.StackResponse;
 import com.sequenceiq.cloudbreak.api.model.stack.StackScaleRequestV2;
+import com.sequenceiq.cloudbreak.api.model.stack.StackViewResponse;
 import com.sequenceiq.cloudbreak.api.model.stack.cluster.ClusterRepairRequest;
 import com.sequenceiq.cloudbreak.api.model.users.UserNamePasswordJson;
 import com.sequenceiq.cloudbreak.api.model.v2.StackV2Request;
@@ -39,11 +40,18 @@ import io.swagger.annotations.ApiOperation;
 public interface StackV3Endpoint {
 
     @GET
+    @Path("/new")
+    @Produces(MediaType.APPLICATION_JSON)
+    @ApiOperation(value = StackOpDescription.LIST_BY_WORKSPACE, produces = ContentType.JSON, notes = Notes.STACK_NOTES,
+            nickname = "listStacksByWorkspace")
+    Set<StackViewResponse> listByWorkspace(@PathParam("workspaceId") Long workspaceId);
+
+    @GET
     @Path("")
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = StackOpDescription.LIST_BY_WORKSPACE, produces = ContentType.JSON, notes = Notes.STACK_NOTES,
             nickname = "listStacksByWorkspace")
-    Set<StackResponse> listByWorkspace(@PathParam("workspaceId") Long workspaceId);
+    Set<StackResponse> listByWorkspaceOld(@PathParam("workspaceId") Long workspaceId);
 
     @GET
     @Path("{name}")

@@ -5,10 +5,15 @@ import static com.sequenceiq.cloudbreak.api.model.Status.DELETE_COMPLETED;
 import static com.sequenceiq.cloudbreak.api.model.Status.DELETE_IN_PROGRESS;
 import static com.sequenceiq.cloudbreak.api.model.Status.STOP_REQUESTED;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -47,6 +52,9 @@ public class StackView implements ProvisionEntity, WorkspaceAwareResource {
 
     @OneToOne
     private StackStatusView stackStatus;
+
+    @OneToMany(mappedBy = "stack", fetch = FetchType.EAGER)
+    private Set<InstanceGroupView> instanceGroups = new HashSet<>();
 
     private Integer gatewayPort;
 
@@ -144,4 +152,13 @@ public class StackView implements ProvisionEntity, WorkspaceAwareResource {
     public boolean isStackInDeletionPhase() {
         return DELETE_COMPLETED.equals(getStatus()) || DELETE_IN_PROGRESS.equals(getStatus());
     }
+
+    public Set<InstanceGroupView> getInstanceGroups() {
+        return instanceGroups;
+    }
+
+    public void setInstanceGroups(Set<InstanceGroupView> instanceGroups) {
+        this.instanceGroups = instanceGroups;
+    }
+
 }
